@@ -313,9 +313,10 @@ module JSONAPI
 
     def _replace_polymorphic_to_one_link(relationship_type, key_value, key_type, options)
       relationship = self.class._relationships[relationship_type.to_sym]
+      polymorphic_type = self.class.resource_for(key_type.to_s)._model_name
 
       _model.public_send("#{relationship.foreign_key}=", key_value)
-      _model.public_send("#{relationship.polymorphic_type}=", key_type.to_s.classify)
+      _model.public_send("#{relationship.polymorphic_type}=", polymorphic_type)
 
       @save_needed = true
 
